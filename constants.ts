@@ -205,40 +205,58 @@ export const SERVICES_DATA = [
 
 export const BLOG_POSTS = [
   {
-    title: "The Digital Harvest: How AgriTech is Cultivating Nigeria's Future",
-    slug: "digital-harvest-agritech-nigeria",
-    summary: "Explore the transformative impact of data-driven agriculture and digital farming systems on Nigeria's food security and economic growth.",
+    title: "The Digital Harvest: How AgriTech Is Cultivating Nigeria’s Future",
+    slug: "the-digital-harvest-agritech-nigeria",
+    aliases: ["digital-harvest-agritech-nigeria"],
+    summary: "From satellite telemetry to localized climate forecasts: transforming agricultural yield, post-harvest logistics, and rural food security in Nigeria.",
+    date: "24 October 2026",
     icon: "LeafIcon",
-  },
-  {
-    title: "Upskilling for Tomorrow: The Role of AI in African Education",
-    slug: "ai-in-african-education",
-    summary: "Discover how AI-powered learning platforms are bridging the skills gap and preparing Africa's youth for the future of work.",
-    icon: "AcademicCapIcon",
-  },
-  {
-    title: "Beyond the Hype: Practical AI Applications for African Businesses",
-    slug: "practical-ai-for-african-businesses",
-    summary: "From automation to predictive analytics, learn how enterprises across Africa are leveraging AI to drive efficiency and innovation.",
-    icon: "AiBotIcon",
+    category: "AgriTech",
   },
   {
     title: "Data-Driven Governance: A New Era for Public Services in Africa",
     slug: "data-driven-governance-africa",
-    summary: "An insight into how predictive analytics and data intelligence are revolutionizing public sector delivery and decision-making.",
+    aliases: ["data-driven-governance-africa"],
+    summary: "Harnessing administrative data, geospatial registries, and predictive analytics to modernize civic delivery, revenue mobilization, and social welfare.",
+    date: "24 October 2026",
     icon: "ChartBarIcon",
+    category: "Governance",
   },
   {
     title: "The Pulse of Progress: HealthTech's Impact on Patient Care",
-    slug: "healthtech-impact-patient-care",
-    summary: "Examine how health data analytics and patient intelligence platforms are improving healthcare outcomes in Nigeria and beyond.",
+    slug: "healthtech-data-analytics-patient-care-nigeria",
+    aliases: ["healthtech-impact-patient-care"],
+    summary: "Deploying electronic medical records, predictive clinical analytics, and supply-chain IoT to transform Nigerian healthcare delivery.",
+    date: "24 October 2026",
     icon: "HeartIcon",
+    category: "HealthTech",
   },
   {
     title: "PropTech in Africa: Building Smarter Real Estate Markets",
-    slug: "proptech-africa-real-estate",
-    summary: "A look at how technology is creating transparency and opportunities in Africa's burgeoning real estate sector.",
+    slug: "proptech-africa-smarter-real-estate-markets",
+    aliases: ["proptech-africa-real-estate"],
+    summary: "Overcoming title fraud, valuation opacity, and liquidity constraints with cadastral GIS mapping, verified property networks, and algorithmic valuation.",
+    date: "24 October 2026",
     icon: "BuildingOfficeIcon",
+    category: "PropTech",
+  },
+  {
+    title: "Upskilling for Tomorrow: The Role of AI in African Education",
+    slug: "ai-education-skills-development-africa",
+    aliases: ["ai-in-african-education"],
+    summary: "Harnessing personalized learning algorithms, automated tutoring, and localized AI curricula to prepare Africa’s youth for the global knowledge economy.",
+    date: "24 October 2026",
+    icon: "AcademicCapIcon",
+    category: "EdTech",
+  },
+  {
+    title: "Beyond the Hype: Practical AI Applications for African Businesses",
+    slug: "practical-ai-applications-african-businesses",
+    aliases: ["practical-ai-for-african-businesses"],
+    summary: "From predictive supply-chain buffers to indigenous voice customer agents: deploying artificial intelligence that drives real commercial ROI.",
+    date: "24 October 2026",
+    icon: "AiBotIcon",
+    category: "Enterprise AI",
   }
 ];
 
@@ -318,7 +336,7 @@ export const LEADERSHIP = {
 
 export const CONTACT_INFO = {
   address: "Opposite Poly Hospital, G.R.A, Lokoja, Kogi State, Nigeria",
-  email: "info@itechgroups.com.ng",
+  email: "info@itechgroupsnigeria.online",
   phone: "+234 810 757 0878",
   hours: "Monday – Friday, 9:00 AM – 5:00 PM (WAT)",
 };
@@ -342,19 +360,10 @@ export const SOCIAL_LINKS = {
   instagram: "https://instagram.com/itechgroupsng",
 };
 
-export const DIVISIONAL_CONTACTS = [
-    { name: "AgriSolutions (AgriSmart)", description: "For agricultural partnerships, pilot programs, or farmer data analytics.", email: "agrisolutions@itechgroups.com.ng" },
-    { name: "Learn (AI LearnHub)", description: "For training partnerships, course enrollment, or certification inquiries.", email: "learn@itechgroups.com.ng" },
-    { name: "AI Labs (Cara & Enterprise Automation)", description: "For AI-driven automation, chatbot systems, and custom AI integrations.", email: "ailabs@itechgroups.com.ng" },
-    { name: "Data Services", description: "For analytics projects, dashboard development, or government data contracts.", email: "dataservices@itechgroups.com.ng" },
-    { name: "HealthConnect", description: "For hospital analytics, predictive health systems, and digital records solutions.", email: "healthconnect@itechgroups.com.ng" },
-    { name: "Creative Studios", description: "For branding, web design, or digital marketing solutions.", email: "creative@itechgroups.com.ng" },
-];
-
-export const OTHER_CONTACTS = [
-    { name: "Investor Relations", description: "For investment discussions, funding collaborations, or partnerships.", email: "investors@itechgroups.com.ng" },
-    { name: "Work With Us", description: "Send your CV and portfolio to join our team.", email: "careers@itechgroups.com.ng" },
-    { name: "Media & Press", description: "For interviews, media features, or speaking invitations.", email: "media@itechgroups.com.ng" },
+export const DEPARTMENTAL_CONTACTS = [
+    { name: "General Inquiries & Partnerships", description: "For general questions, collaborations, service inquiries, or media requests.", email: "info@itechgroupsnigeria.online" },
+    { name: "Investor Relations", description: "For investment discussions, funding collaborations, or partnerships.", email: "investors@itechgroupsnigeria.online" },
+    { name: "Careers", description: "Send your CV and portfolio to join our team.", email: "careers@itechgroupsnigeria.online" },
 ];
 
 export const FAQS = [
@@ -378,7 +387,7 @@ export const OFFICES = {
 };
 
 export const SOCIAL_PROOF_TEXT = "Trusted by professionals trained through Google, Cisco, and 3MTT programs.";
-export const ACCESSIBILITY_EMAIL = "accessibility@itechgroups.com.ng";
+export const ACCESSIBILITY_EMAIL = "info@itechgroupsnigeria.online";
 
 export const PARTNERSHIPS_DATA = {
   header: {
@@ -443,7 +452,7 @@ export const PARTNERSHIPS_DATA = {
   },
   contact: {
     title: "Contact for Partnerships",
-    email: "partnerships@itechgroups.com.ng",
+    email: "partnerships@itechgroupsnigeria.online",
     phone: "+234 810 757 0878",
     website: "www.itechgroupsng.com",
     address: "Opposite Poly Hospital, G.R.A, Lokoja, Kogi State, Nigeria",
@@ -516,7 +525,7 @@ export const INVESTORS_DATA = {
     ]
   },
   contact: {
-    email: "investors@itechgroups.com.ng",
+    email: "investors@itechgroupsnigeria.online",
     phone: "+234 806 935 3085",
     address: "Opposite Poly Hospital, G.R.A, Lokoja, Kogi State, Nigeria"
   },
@@ -603,7 +612,7 @@ export const CHATBOT_SYSTEM_PROMPT = `You are a friendly and professional AI Ass
 
 **Partnerships & Investment:**
 - The company is open to partnerships with governments, corporations, startups, and NGOs.
-- Investment opportunities include Equity Partnership, Strategic Partnership, and Impact Investment. Interested parties should email investors@itechgroups.com.ng.
+- Investment opportunities include Equity Partnership, Strategic Partnership, and Impact Investment. Interested parties should email investors@itechgroupsnigeria.online.
 
 If asked about a specific service or division, summarize its purpose and key products based on the data above. Always maintain a helpful and positive tone.
 `;

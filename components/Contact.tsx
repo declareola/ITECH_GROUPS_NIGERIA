@@ -6,53 +6,58 @@ import {
   FAQS, 
   TESTIMONIAL, 
   OFFICES, 
-  SOCIAL_PROOF_TEXT,
-  DIVISIONAL_CONTACTS,
-  OTHER_CONTACTS,
+  DEPARTMENTAL_CONTACTS,
 } from '../constants';
 import { 
-  EnvelopeIcon, MapPinIcon, PhoneIcon, WhatsAppIcon, TelegramIcon, QuoteIcon,
-  ChevronDownIcon, LeafIcon, HeartIcon, PaintBrushIcon, BuildingOfficeIcon,
-  AcademicCapIcon, InnovationIcon, ChartBarIcon, ImpactIcon, UserGroupIcon, MegaphoneIcon
+  EnvelopeIcon, 
+  MapPinIcon, 
+  PhoneIcon, 
+  WhatsAppIcon, 
+  TelegramIcon, 
+  QuoteIcon,
+  ChevronDownIcon, 
+  ImpactIcon, 
+  UserGroupIcon,
+  CheckCircleIcon,
+  BuildingOfficeIcon,
+  SparklesIcon
 } from './IconComponents';
 import { FadeIn, StaggeredFadeIn, FadeInItem } from './FadeIn';
 
 const FaqItem: React.FC<{ faq: { q: string; a: string }; isOpen: boolean; onClick: () => void }> = ({ faq, isOpen, onClick }) => {
   return (
-    <div className="border-b border-slate-700">
+    <div className="border-b border-slate-200/90 last:border-b-0">
       <button
         onClick={onClick}
-        className="flex justify-between items-center w-full py-4 text-left"
+        className="flex justify-between items-center w-full py-5 text-left transition-colors group"
         aria-expanded={isOpen}
       >
-        <span className="font-semibold text-slate-200">{faq.q}</span>
-        <ChevronDownIcon className={`w-5 h-5 text-teal-400 transform transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
+        <span className="font-bold text-slate-900 text-sm sm:text-base group-hover:text-amber-600 transition-colors">
+          {faq.q}
+        </span>
+        <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all flex-shrink-0 ml-4 ${
+          isOpen ? 'bg-amber-400 text-slate-950 rotate-180' : 'bg-slate-100 text-slate-600 group-hover:bg-slate-200'
+        }`}>
+          <ChevronDownIcon className="w-4 h-4" />
+        </div>
       </button>
       <div
         className={`overflow-hidden transition-all duration-300 ease-in-out ${
-          isOpen ? 'max-h-96' : 'max-h-0'
+          isOpen ? 'max-h-96 pb-5' : 'max-h-0'
         }`}
       >
-        <div className="pb-4 text-slate-400">
-          <p>{faq.a}</p>
-        </div>
+        <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-normal">
+          {faq.a}
+        </p>
       </div>
     </div>
   );
 };
 
-const allContacts = [...DIVISIONAL_CONTACTS, ...OTHER_CONTACTS];
-const contactIconMap: { [key: string]: React.FC<React.SVGProps<SVGSVGElement>> } = {
-    "AgriSolutions (AgriSmart)": LeafIcon,
-    "Learn (AI LearnHub)": AcademicCapIcon,
-    "AI Labs (Cara & Enterprise Automation)": InnovationIcon,
-    "Data Services": ChartBarIcon,
-    "HealthConnect": HeartIcon,
-    "Creative Studios": PaintBrushIcon,
-    "RealEstate Hub": BuildingOfficeIcon,
-    "Investor Relations": ImpactIcon,
-    "Work With Us": UserGroupIcon,
-    "Media & Press": MegaphoneIcon,
+const departmentIconMap: { [key: string]: React.FC<React.SVGProps<SVGSVGElement>> } = {
+  "General Inquiries & Partnerships": EnvelopeIcon,
+  "Investor Relations": ImpactIcon,
+  "Careers": UserGroupIcon,
 };
 
 export const Contact: React.FC = () => {
@@ -69,118 +74,332 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <section className="py-20 bg-slate-900/80 backdrop-blur-sm px-4 sm:px-6 lg:px-8 pt-32">
-      <div className="max-w-7xl mx-auto">
-        <FadeIn className="text-center">
-          <h2 className="text-4xl font-bold tracking-tight">Let’s Build the Future Together</h2>
-          <p className="mt-4 text-lg text-slate-400 max-w-3xl mx-auto">
-            ITECH Groups Nigeria connects with innovators and partners who share our vision. Whether you want to collaborate, request a demo, or learn more, we're ready to talk.
+    <div id="contact" className="bg-[#f8fafc] text-slate-900 min-h-screen pb-20">
+      {/* Page Header */}
+      <section className="px-4 sm:px-8 pt-12 pb-14 max-w-7xl mx-auto">
+        <FadeIn className="text-center max-w-3xl mx-auto mb-14">
+          <span className="inline-block bg-amber-400 text-slate-950 text-[10px] font-black uppercase tracking-widest px-3.5 py-1 rounded-full mb-3 shadow-xs">
+            EXECUTIVE ENGAGEMENT & DESKS
+          </span>
+          <h1 className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight uppercase leading-[1.08]">
+            Direct Institutional Access
+          </h1>
+          <p className="mt-4 text-sm sm:text-base text-slate-600 font-medium leading-relaxed">
+            Connect directly with our headquarters in Lokoja, subsidiary leaders, and executive committee across Africa and global markets.
           </p>
         </FadeIn>
-        
-        <div className="mt-20 grid lg:grid-cols-5 gap-12 items-start">
-          <FadeIn className="lg:col-span-3 bg-slate-800 p-8 rounded-lg shadow-lg">
-            <h3 className="text-2xl font-bold text-teal-400 mb-6">Send us a Message</h3>
+
+        {/* Primary Contact Bento (Form + Direct Channels) */}
+        <div className="grid lg:grid-cols-12 gap-8 items-start mb-16">
+          {/* Left Form: Architectural White Card */}
+          <div className="lg:col-span-7 bg-white p-8 sm:p-10 rounded-[32px] border border-slate-200/90 shadow-sm">
+            <div className="mb-8">
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">
+                EXECUTIVE INQUIRY FORM
+              </span>
+              <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tight">
+                Send an Executive Message
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-500 mt-1 font-normal">
+                Our operations team reviews all incoming inquiries and guarantees a response within 24 business hours.
+              </p>
+            </div>
+
             {submitted ? (
-              <div className="text-center py-12">
-                <h3 className="text-2xl font-bold text-teal-400 mb-4">Thank You!</h3>
-                <p className="text-slate-300">Your message has been sent. We respond to every inquiry with the professionalism and speed that define our brand. Expect a reply within 24 hours.</p>
+              <div className="text-center py-12 bg-slate-50 rounded-2xl border border-slate-200 p-8">
+                <div className="w-14 h-14 rounded-full bg-slate-900 text-amber-400 flex items-center justify-center mx-auto mb-4 font-black text-xl shadow-md">
+                  ✓
+                </div>
+                <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight">Inquiry Received</h3>
+                <p className="text-slate-600 text-xs sm:text-sm max-w-md mx-auto mt-2 leading-relaxed font-normal">
+                  Thank you for reaching out to ITECH Groups Nigeria. Your message has been routed to the appropriate corporate desk. We will respond promptly within 24 hours.
+                </p>
+                <button
+                  onClick={() => setSubmitted(false)}
+                  className="mt-6 bg-slate-900 text-white font-bold text-xs uppercase tracking-wider px-6 py-2.5 rounded-full hover:bg-slate-800 transition-all shadow-xs"
+                >
+                  Send Another Inquiry
+                </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                 <div><label htmlFor="full-name" className="sr-only">Full name</label><input type="text" name="full-name" id="full-name" required autoComplete="name" className="block w-full shadow-sm py-3 px-4 placeholder-slate-500 bg-slate-900 border border-slate-700 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Full name" /></div>
-                 <div><label htmlFor="email" className="sr-only">Email</label><input id="email" name="email" type="email" required autoComplete="email" className="block w-full shadow-sm py-3 px-4 placeholder-slate-500 bg-slate-900 border border-slate-700 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Email Address" /></div>
-                 <div><label htmlFor="phone" className="sr-only">Phone Number</label><input type="tel" name="phone" id="phone" autoComplete="tel" className="block w-full shadow-sm py-3 px-4 placeholder-slate-500 bg-slate-900 border border-slate-700 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Phone Number (Optional)" /></div>
-                 <div><label htmlFor="subject" className="sr-only">Subject</label><input type="text" name="subject" id="subject" required className="block w-full shadow-sm py-3 px-4 placeholder-slate-500 bg-slate-900 border border-slate-700 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Subject" /></div>
-                 <div><label htmlFor="message" className="sr-only">Message</label><textarea id="message" name="message" rows={5} required className="block w-full shadow-sm py-3 px-4 placeholder-slate-500 bg-slate-900 border border-slate-700 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Your Message"></textarea></div>
-                 <div><button type="submit" className="w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-teal-500 transition-colors">Send Message</button></div>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="full-name" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Full Name</label>
+                    <input 
+                      type="text" 
+                      name="full-name" 
+                      id="full-name" 
+                      required 
+                      autoComplete="name" 
+                      className="block w-full py-2.5 px-4 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 placeholder-slate-400 font-medium" 
+                      placeholder="e.g. Dr. Ngozi Adebayo" 
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="email" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Corporate Email</label>
+                    <input 
+                      id="email" 
+                      name="email" 
+                      type="email" 
+                      required 
+                      autoComplete="email" 
+                      className="block w-full py-2.5 px-4 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 placeholder-slate-400 font-medium" 
+                      placeholder="name@organization.com" 
+                    />
+                  </div>
+                </div>
+
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="phone" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Phone Number (Optional)</label>
+                    <input 
+                      type="tel" 
+                      name="phone" 
+                      id="phone" 
+                      autoComplete="tel" 
+                      className="block w-full py-2.5 px-4 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 placeholder-slate-400 font-medium" 
+                      placeholder="+234 ..." 
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="subject" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Subject</label>
+                    <input 
+                      type="text" 
+                      name="subject" 
+                      id="subject" 
+                      required 
+                      className="block w-full py-2.5 px-4 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 placeholder-slate-400 font-medium" 
+                      placeholder="e.g. Enterprise AI Deployment Partnership" 
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="message" className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1">Message</label>
+                  <textarea 
+                    id="message" 
+                    name="message" 
+                    rows={4} 
+                    required 
+                    className="block w-full py-2.5 px-4 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900 placeholder-slate-400 font-medium" 
+                    placeholder="Provide details about your project, timeline, or collaboration requirements..."
+                  ></textarea>
+                </div>
+
+                <div className="pt-2">
+                  <button 
+                    type="submit" 
+                    className="w-full inline-flex items-center justify-center py-3.5 px-8 rounded-full text-xs font-black uppercase tracking-widest text-white bg-slate-900 hover:bg-slate-800 shadow-md transition-all duration-200"
+                  >
+                    Send Executive Message &rarr;
+                  </button>
+                </div>
               </form>
             )}
-          </FadeIn>
+          </div>
 
-          <FadeIn className="lg:col-span-2 space-y-10">
-            <div>
-                <h3 className="text-xl font-bold text-teal-400 mb-4">Need a quick response?</h3>
-                <div className="flex flex-col space-y-3">
-                    <Tooltip content={QUICK_CONTACT.whatsapp.display} position="right">
-                      <a href={QUICK_CONTACT.whatsapp.link} target="_blank" rel="noopener noreferrer" className="flex items-center bg-slate-800 p-3 rounded-lg hover:bg-slate-700 transition-colors" aria-label={`Chat on WhatsApp: ${QUICK_CONTACT.whatsapp.display}`}>
-                        <WhatsAppIcon className="w-6 h-6 text-green-400 mr-4"/><span>Chat on WhatsApp</span>
-                      </a>
-                    </Tooltip>
-                    <Tooltip content={QUICK_CONTACT.telegram.username} position="right">
-                      <a href={QUICK_CONTACT.telegram.link} target="_blank" rel="noopener noreferrer" className="flex items-center bg-slate-800 p-3 rounded-lg hover:bg-slate-700 transition-colors" aria-label={`Contact on Telegram: ${QUICK_CONTACT.telegram.username}`}>
-                        <TelegramIcon className="w-6 h-6 text-sky-400 mr-4"/><span>Contact on Telegram</span>
-                      </a>
-                    </Tooltip>
+          {/* Right Column: Obsidian Luxury Headquarters & Rapid Channels */}
+          <div className="lg:col-span-5 space-y-6">
+            {/* Headquarters Card */}
+            <div className="bg-[#181d27] text-white p-8 rounded-[32px] border border-slate-800 shadow-md">
+              <span className="text-[10px] font-black uppercase tracking-widest text-amber-400 block mb-2">
+                CORPORATE HEADQUARTERS
+              </span>
+              <h3 className="text-xl font-black text-white uppercase tracking-tight mb-4">
+                Lokoja Campus
+              </h3>
+              
+              <div className="space-y-4 text-xs text-slate-300 font-normal">
+                <div className="flex items-start">
+                  <MapPinIcon className="w-5 h-5 text-amber-400 mr-3 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-bold text-white block">Official Address</span>
+                    <span className="text-slate-400 leading-relaxed">{CONTACT_INFO.address}</span>
+                  </div>
                 </div>
-            </div>
-            <div className="bg-slate-800 p-6 rounded-lg shadow-lg">
-              <h3 className="text-xl font-bold text-teal-400 mb-4">Head Office</h3>
-              <div className="space-y-3 text-slate-300"><p className="flex items-start"><MapPinIcon className="w-5 h-5 text-teal-400 mr-3 flex-shrink-0 mt-1" />{CONTACT_INFO.address}</p><p className="flex items-center"><EnvelopeIcon className="w-5 h-5 text-teal-400 mr-3 flex-shrink-0" /><a href={`mailto:${CONTACT_INFO.email}`} className="hover:text-teal-300">{CONTACT_INFO.email}</a></p><p className="flex items-center"><PhoneIcon className="w-5 h-5 text-teal-400 mr-3 flex-shrink-0" />{CONTACT_INFO.phone}</p></div>
-            </div>
-             <div>
-                <h3 className="text-xl font-bold text-teal-400 mb-4">Our Offices</h3>
-                <div className="bg-slate-800 p-4 rounded-lg"><p><span className="font-semibold">{OFFICES.current.location}:</span> {OFFICES.current.address}</p><p className="text-sm text-slate-400 mt-2"><span className="font-semibold">Coming Soon:</span> {OFFICES.future.join(', ')}</p></div>
-            </div>
-          </FadeIn>
-        </div>
 
-        <FadeIn className="mt-24 pt-16 border-t border-slate-800">
-            <h3 className="text-3xl font-bold text-center mb-12">Divisional & Department Contacts</h3>
-            <StaggeredFadeIn className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" stagger={0.1}>
-                {allContacts.map((contact) => {
-                    const Icon = contactIconMap[contact.name] || EnvelopeIcon;
-                    return (
-                        <FadeInItem key={contact.name}>
-                            <div className="bg-slate-800 p-6 rounded-lg flex flex-col h-full transform hover:-translate-y-2 transition-transform duration-300">
-                                <div className="flex items-center mb-3">
-                                    <Icon className="w-7 h-7 text-teal-400 mr-4"/>
-                                    <h4 className="text-xl font-bold">{contact.name}</h4>
-                                </div>
-                                <p className="text-slate-400 mb-4 flex-grow">{contact.description}</p>
-                                <a href={`mailto:${contact.email}`} className="font-medium text-teal-400 hover:text-teal-300 flex items-center mt-auto">
-                                    <EnvelopeIcon className="w-5 h-5 mr-2"/>
-                                    {contact.email}
-                                </a>
-                            </div>
-                        </FadeInItem>
-                    );
-                })}
-            </StaggeredFadeIn>
-        </FadeIn>
+                <div className="flex items-center">
+                  <EnvelopeIcon className="w-5 h-5 text-amber-400 mr-3 flex-shrink-0" />
+                  <div>
+                    <span className="font-bold text-white block">Official Email</span>
+                    <a href={`mailto:${CONTACT_INFO.email}`} className="text-slate-300 hover:text-white font-medium break-all">
+                      {CONTACT_INFO.email}
+                    </a>
+                  </div>
+                </div>
 
-        <div className="mt-24 pt-16 border-t border-slate-800 grid md:grid-cols-5 gap-16 items-start">
-            <FadeIn className="md:col-span-3">
-              <h3 className="text-3xl font-bold mb-8">Frequently Asked Questions</h3>
-              <div className="space-y-2">
-                  {FAQS.map((faq, index) => (
-                      <FaqItem key={index} faq={faq} isOpen={openFaq === index} onClick={() => handleFaqClick(index)} />
-                  ))}
+                <div className="flex items-center">
+                  <PhoneIcon className="w-5 h-5 text-amber-400 mr-3 flex-shrink-0" />
+                  <div>
+                    <span className="font-bold text-white block">Direct Line</span>
+                    <span className="text-slate-300">{CONTACT_INFO.phone}</span>
+                  </div>
+                </div>
               </div>
-            </FadeIn>
-            <FadeIn className="md:col-span-2">
-                <div className="bg-slate-800 p-8 rounded-lg text-center sticky top-24">
-                  <h3 className="text-2xl font-bold mb-6">A Word From Our Partners</h3>
-                  <QuoteIcon className="w-12 h-12 text-teal-500 mx-auto mb-4"/>
-                  <blockquote className="text-slate-300 italic text-lg">"{TESTIMONIAL.quote}"</blockquote>
-                  <cite className="block mt-6 not-italic font-semibold text-teal-300">{TESTIMONIAL.author}, <span className="text-slate-400 font-normal">{TESTIMONIAL.title}</span></cite>
-                </div>
-            </FadeIn>
+
+              <div className="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-amber-400">
+                <span>{CONTACT_INFO.hours}</span>
+              </div>
+            </div>
+
+            {/* Quick Response Channels */}
+            <div className="bg-white p-6 sm:p-8 rounded-[28px] border border-slate-200/90 shadow-sm">
+              <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2">
+                INSTANT EXECUTIVE CHANNELS
+              </span>
+              <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight mb-4">
+                Real-Time Messaging
+              </h3>
+              
+              <div className="grid sm:grid-cols-2 gap-3">
+                <Tooltip content={QUICK_CONTACT.whatsapp.display} position="top">
+                  <a 
+                    href={QUICK_CONTACT.whatsapp.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="flex items-center justify-between bg-slate-50 border border-slate-200 hover:border-slate-900 p-3.5 rounded-2xl transition-all group"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center flex-shrink-0">
+                        <WhatsAppIcon className="w-4 h-4" />
+                      </div>
+                      <span className="text-xs font-bold text-slate-800">WhatsApp</span>
+                    </div>
+                    <span className="text-slate-400 group-hover:text-slate-950 font-bold text-xs">↗</span>
+                  </a>
+                </Tooltip>
+
+                <Tooltip content={QUICK_CONTACT.telegram.username} position="top">
+                  <a 
+                    href={QUICK_CONTACT.telegram.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="flex items-center justify-between bg-slate-50 border border-slate-200 hover:border-slate-900 p-3.5 rounded-2xl transition-all group"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-full bg-sky-600 text-white flex items-center justify-center flex-shrink-0">
+                        <TelegramIcon className="w-4 h-4" />
+                      </div>
+                      <span className="text-xs font-bold text-slate-800">Telegram</span>
+                    </div>
+                    <span className="text-slate-400 group-hover:text-slate-950 font-bold text-xs">↗</span>
+                  </a>
+                </Tooltip>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <FadeIn className="mt-24 pt-16 border-t border-slate-800">
-            <h3 className="text-3xl font-bold text-center mb-8">Find Us</h3>
-            <div className="aspect-video w-full rounded-lg overflow-hidden shadow-2xl border-4 border-slate-800">
-                <iframe title="ITECH Groups Nigeria Location" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3947.518629737874!2d6.726919!3d7.801869!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x104f5e0e0f0f0f0f%3A0x8f0f0f0f0f0f0f0f!2sKogi%20State%20Polytechnic!5e0!3m2!1sen!2sng" width="100%" height="100%" style={{border:0}} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
-            </div>
-        </FadeIn>
+        {/* Departmental Desks Bento Grid */}
+        <div className="mb-16">
+          <div className="mb-6">
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+              SPECIALIZED DIVISIONS
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight uppercase mt-1">
+              Direct Departmental Desks
+            </h2>
+          </div>
 
-        <FadeIn className="mt-24 pt-16 border-t border-slate-800 text-center bg-slate-800/50 p-10 rounded-lg">
-            <h3 className="text-3xl font-bold text-teal-300">Partner with ITECH</h3>
-            <p className="text-slate-300 mt-4 max-w-2xl mx-auto text-lg">Drive innovation across Africa. Let's build the future together.</p>
-            <button onClick={() => document.getElementById('full-name')?.focus()} className="mt-6 bg-teal-600 text-white font-medium py-3 px-8 rounded-md hover:bg-teal-700 transition-colors text-lg transform hover:scale-105">Become a Partner</button>
-        </FadeIn>
-      </div>
-    </section>
+          <div className="grid md:grid-cols-3 gap-6">
+            {DEPARTMENTAL_CONTACTS.map((dept, index) => {
+              const Icon = departmentIconMap[dept.name] || EnvelopeIcon;
+              const isDark = index === 1;
+
+              return (
+                <div 
+                  key={dept.name} 
+                  className={`p-6 sm:p-7 rounded-[28px] border flex flex-col justify-between transition-all duration-300 shadow-sm min-w-0 overflow-hidden ${
+                    isDark 
+                      ? 'bg-[#181d27] text-white border-slate-800' 
+                      : 'bg-white text-slate-900 border-slate-200/90 hover:border-slate-900'
+                  }`}
+                >
+                  <div>
+                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-5 font-bold ${
+                      isDark ? 'bg-amber-400 text-slate-950' : 'bg-slate-900 text-white'
+                    }`}>
+                      <Icon className="w-6 h-6" />
+                    </div>
+                    <h3 className={`text-lg font-black uppercase tracking-tight mb-2 ${
+                      isDark ? 'text-white' : 'text-slate-900'
+                    }`}>
+                      {dept.name}
+                    </h3>
+                    <p className={`text-xs sm:text-sm leading-relaxed font-normal mb-6 ${
+                      isDark ? 'text-slate-300' : 'text-slate-600'
+                    }`}>
+                      {dept.description}
+                    </p>
+                  </div>
+
+                  <div className={`pt-4 border-t ${isDark ? 'border-slate-800' : 'border-slate-100'} w-full min-w-0 overflow-hidden`}>
+                    <a 
+                      href={`mailto:${dept.email}`} 
+                      title={dept.email}
+                      className={`group flex items-center justify-between gap-2 w-full min-w-0 py-2 px-3 rounded-xl border transition-all text-xs font-semibold ${
+                        isDark 
+                          ? 'bg-slate-900/90 border-slate-800 text-amber-400 hover:text-amber-300 hover:border-amber-400/50 hover:bg-slate-900' 
+                          : 'bg-slate-50 border-slate-200 text-slate-900 hover:text-amber-600 hover:border-slate-400 hover:bg-slate-100'
+                      }`}
+                    >
+                      <span className="truncate lowercase tracking-normal font-mono text-[11px] sm:text-xs">
+                        {dept.email}
+                      </span>
+                      <span className="flex-shrink-0 font-bold text-xs transform group-hover:translate-x-1 transition-transform">
+                        &rarr;
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Testimonial & FAQs Bento Grid */}
+        <div className="grid lg:grid-cols-12 gap-8 items-start">
+          {/* Testimonial Card */}
+          <div className="lg:col-span-5 bg-[#181d27] text-white p-8 sm:p-10 rounded-[32px] border border-slate-800 shadow-md flex flex-col justify-between h-full">
+            <div>
+              <div className="w-12 h-12 rounded-2xl bg-amber-400 text-slate-950 flex items-center justify-center mb-6">
+                <QuoteIcon className="w-6 h-6" />
+              </div>
+              <span className="text-[10px] font-black uppercase tracking-widest text-amber-400 block mb-2">
+                EXECUTIVE ENDORSEMENT
+              </span>
+              <p className="text-base sm:text-lg text-slate-200 font-medium italic leading-relaxed mb-6">
+                "{TESTIMONIAL.quote}"
+              </p>
+            </div>
+            <div className="pt-4 border-t border-slate-800">
+              <span className="font-black text-sm uppercase text-white block">{TESTIMONIAL.author}</span>
+              <span className="text-xs text-slate-400 font-medium">{TESTIMONIAL.title}</span>
+            </div>
+          </div>
+
+          {/* FAQs Accordion */}
+          <div className="lg:col-span-7 bg-white p-8 sm:p-10 rounded-[32px] border border-slate-200/90 shadow-sm">
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-1">
+              CLARIFICATIONS
+            </span>
+            <h2 className="text-2xl font-black text-slate-900 uppercase tracking-tight mb-6">
+              Frequently Asked Questions
+            </h2>
+            <div className="divide-y divide-slate-100">
+              {FAQS.map((faq, index) => (
+                <FaqItem 
+                  key={faq.q} 
+                  faq={faq} 
+                  isOpen={openFaq === index} 
+                  onClick={() => handleFaqClick(index)} 
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 };

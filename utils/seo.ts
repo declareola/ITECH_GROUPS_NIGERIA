@@ -2,47 +2,53 @@ import { BLOG_POSTS, CONTACT_INFO, LEADERSHIP, SOCIAL_LINKS } from '../constants
 
 const BASE_URL = "https://main--itech-groups-nigeria--me-aistudio-co.s-ul4-4200.proxy.google-testing.com";
 const DEFAULT_IMAGE_URL = `${BASE_URL}/social_preview.png`;
+const SITE_NAME = "ITECH Groups Nigeria";
 
 const METADATA: { [key: string]: { title: string; description: string; keywords: string } } = {
   home: {
-    title: 'ITECH Groups Nigeria - Building Digital Solutions for Africa’s Future',
+    title: 'Building Digital Solutions for Africa’s Future',
     description: 'A technology and innovation holding company focused on building digital solutions for Africa\'s future, specializing in AI, Data Analytics, AgriTech, and more.',
     keywords: 'ITECH, Nigeria, AI, Data Analytics, AgriTech, EdTech, Technology in Africa, Olabode Ilesanmi',
   },
   about: {
-    title: 'About ITECH Groups Nigeria | Mission, Vision, and Values',
+    title: 'About Us, Mission & Vision',
     description: 'Learn about ITECH Groups Nigeria, our mission to solve Africa’s challenges with technology, our vision for a digital future, and our core values.',
     keywords: 'About ITECH, African tech company, innovation, data leadership, technology mission',
   },
   services: {
-    title: 'Our Services | AI, Data, Web Development & More | ITECH Groups Nigeria',
+    title: 'Our Services: AI, Data, Web Development & More',
     description: 'Explore our wide range of services, including AI and Automation, Data Analytics, Website Development, AgriTech, EdTech, and HealthTech solutions.',
     keywords: 'AI services, data analytics Nigeria, website development, AgriTech solutions, EdTech platforms',
   },
   divisions: {
-    title: 'Our Divisions | ITECH Groups Nigeria',
+    title: 'Our Divisions',
     description: 'Discover the innovative divisions within ITECH, from AgriSolutions and AI Labs to HealthConnect and Creative Studios, each tackling key sectors in Africa.',
     keywords: 'ITECH divisions, AgriTech, AI Labs, HealthTech, EdTech, Creative Studios',
   },
   partnerships: {
-    title: 'Partnerships | Collaborate with ITECH Groups Nigeria',
+    title: 'Partnerships & Collaborations',
     description: 'Partner with us to drive innovation and create measurable impact across Africa. We collaborate with governments, corporations, startups, and NGOs.',
     keywords: 'Tech partnerships Africa, collaborate with ITECH, innovation partners, corporate partnerships',
   },
   investors: {
-    title: 'Investor Relations | ITECH Groups Nigeria',
+    title: 'Investor Relations',
     description: 'Explore investment opportunities with ITECH Groups Nigeria, a high-growth technology holding company building scalable digital solutions for Africa.',
     keywords: 'Invest in African tech, ITECH Groups investors, technology investment Nigeria, venture capital Africa',
   },
   blog: {
-    title: 'ITECH Insights & Innovations | Blog',
+    title: 'ITECH Insights & Innovations Blog',
     description: 'Read our AI-generated articles on technology, innovation, and Africa\'s digital transformation. Explore topics from AgriTech to the future of AI in business.',
     keywords: 'Africa tech blog, AI articles, AgriTech insights, digital transformation Africa',
   },
   contact: {
-    title: 'Contact Us | ITECH Groups Nigeria',
+    title: 'Contact Us',
     description: 'Get in touch with ITECH Groups Nigeria. Let\'s discuss how we can build the future together. Find our address, email, phone, and divisional contacts.',
     keywords: 'Contact ITECH, tech company in Lokoja, partnership inquiries, ITECH email',
+  },
+  sitemap: {
+    title: 'Sitemap',
+    description: 'Navigate through all the pages available on the ITECH Groups Nigeria website, including our main sections and blog topics.',
+    keywords: 'sitemap, site navigation, ITECH pages, website map, all pages',
   },
 };
 
@@ -74,7 +80,7 @@ const updateStructuredData = (page: string, postSlug?: string) => {
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "ITECH Groups Nigeria",
-        "url": BASE_URL,
+        "url": `${BASE_URL}/#/`,
         "logo": DEFAULT_IMAGE_URL,
         "contactPoint": {
           "@type": "ContactPoint",
@@ -86,7 +92,7 @@ const updateStructuredData = (page: string, postSlug?: string) => {
     };
 
     if (page === 'blog' && postSlug) {
-        const post = BLOG_POSTS.find(p => p.slug === postSlug);
+        const post = BLOG_POSTS.find(p => p.slug === postSlug || (p as any).aliases?.includes(postSlug));
         if (post) {
             data = {
                 "@context": "https://schema.org",
@@ -119,10 +125,12 @@ export const updateMetadata = (pathname: string) => {
   const postSlug = page === 'blog' ? pathSegments[1] : undefined;
 
   const pageKey = page in METADATA ? page : 'home';
-  const meta = METADATA[pageKey];
-  const post = postSlug ? BLOG_POSTS.find(p => p.slug === postSlug) : null;
+  const meta = METADATA[pageKey as keyof typeof METADATA];
+  const post = postSlug ? BLOG_POSTS.find(p => p.slug === postSlug || (p as any).aliases?.includes(postSlug)) : null;
   
-  const title = post ? `${post.title} | ITECH Blog` : meta.title;
+  const pageTitle = post ? post.title : meta.title;
+  const title = page === 'home' ? `${SITE_NAME} | ${pageTitle}` : `${pageTitle} | ${SITE_NAME}`;
+  
   const description = post ? post.summary : meta.description;
   const url = `${BASE_URL}/#${pathname}`;
 
@@ -138,6 +146,7 @@ export const updateMetadata = (pathname: string) => {
   setMetaTag('property', 'og:description', description);
   setMetaTag('property', 'og:url', url);
   setMetaTag('property', 'og:image', DEFAULT_IMAGE_URL);
+  setMetaTag('property', 'og:site_name', SITE_NAME);
 
   // Update Twitter tags
   setMetaTag('property', 'twitter:title', title);
