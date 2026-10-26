@@ -1,54 +1,64 @@
 import { BLOG_POSTS, CONTACT_INFO, LEADERSHIP, SOCIAL_LINKS } from '../constants';
+import { BLOG_POSTS_DATA, getBlogPostBySlug } from '../data/blogData';
 
-const BASE_URL = "https://main--itech-groups-nigeria--me-aistudio-co.s-ul4-4200.proxy.google-testing.com";
-const DEFAULT_IMAGE_URL = `${BASE_URL}/social_preview.png`;
-const SITE_NAME = "ITECH Groups Nigeria";
+export const PRODUCTION_DOMAIN = "https://itech-groups-nigeria-lime.vercel.app";
+
+export const getBaseUrl = (): string => {
+  if (typeof window !== 'undefined' && window.location.origin) {
+    // If running in development or local, still return window.location.origin
+    // If accessed through custom domain or Vercel, it uses the live origin
+    return window.location.origin;
+  }
+  return PRODUCTION_DOMAIN;
+};
+
+export const SITE_NAME = "ITECH Groups Nigeria";
 
 const METADATA: { [key: string]: { title: string; description: string; keywords: string } } = {
   home: {
-    title: 'Building Digital Solutions for Africa’s Future',
-    description: 'A technology and innovation holding company focused on building digital solutions for Africa\'s future, specializing in AI, Data Analytics, AgriTech, and more.',
-    keywords: 'ITECH, Nigeria, AI, Data Analytics, AgriTech, EdTech, Technology in Africa, Olabode Ilesanmi',
+    title: 'ITECH Groups Nigeria | Building Digital Solutions for Africa’s Future',
+    description: 'Premier African technology holding company engineering sovereign AI, precision AgriTech telemetry, and public data infrastructure across 7 key sectors.',
+    keywords: 'ITECH Groups Nigeria, African Tech, Sovereign AI, AgriTech Nigeria, EdTech Africa, HealthTech, PropTech, Olabode Ilesanmi, 3MTT, Data Analytics Nigeria',
   },
   about: {
-    title: 'About Us, Mission & Vision',
-    description: 'Learn about ITECH Groups Nigeria, our mission to solve Africa’s challenges with technology, our vision for a digital future, and our core values.',
-    keywords: 'About ITECH, African tech company, innovation, data leadership, technology mission',
+    title: 'About Us & Leadership | ITECH Groups Nigeria',
+    description: 'Discover ITECH Groups Nigeria’s mission, core values, continental expansion roadmap, and leadership team headed by Founder & AI Specialist Olabode Ilesanmi.',
+    keywords: 'About ITECH, African tech conglomerate, Olabode Ilesanmi, 3MTT alumni, African innovation leadership, technology governance',
   },
   services: {
-    title: 'Our Services: AI, Data, Web Development & More',
-    description: 'Explore our wide range of services, including AI and Automation, Data Analytics, Website Development, AgriTech, EdTech, and HealthTech solutions.',
-    keywords: 'AI services, data analytics Nigeria, website development, AgriTech solutions, EdTech platforms',
+    title: 'Enterprise Digital Services & Scoping | ITECH Groups Nigeria',
+    description: 'Explore our enterprise engineering capabilities: AI Automation, Predictive Analytics, Agricultural Telemetry, and Custom Architecture Scoping.',
+    keywords: 'AI services Nigeria, data analytics consulting, enterprise automation, web engineering Africa, project scoping brief',
   },
   divisions: {
-    title: 'Our Divisions',
-    description: 'Discover the innovative divisions within ITECH, from AgriSolutions and AI Labs to HealthConnect and Creative Studios, each tackling key sectors in Africa.',
-    keywords: 'ITECH divisions, AgriTech, AI Labs, HealthTech, EdTech, Creative Studios',
+    title: '7 Operating Subsidiaries | ITECH Groups Nigeria',
+    description: 'Explore the 7 specialized subsidiaries of ITECH Groups: AgriSolutions, Learn, AI Labs, Data Services, RealEstate Hub, HealthConnect, and Creative Studios.',
+    keywords: 'ITECH subsidiaries, AgriSmart, AI LearnHub, Cara AI, PropLink, HealthConnect Analytics, African tech ecosystem',
   },
   partnerships: {
-    title: 'Partnerships & Collaborations',
-    description: 'Partner with us to drive innovation and create measurable impact across Africa. We collaborate with governments, corporations, startups, and NGOs.',
-    keywords: 'Tech partnerships Africa, collaborate with ITECH, innovation partners, corporate partnerships',
+    title: 'Strategic Partnerships & Institutional Alliances | ITECH Groups Nigeria',
+    description: 'Partner with ITECH Groups Nigeria. We collaborate with national governments, multilateral agencies, enterprises, and research universities.',
+    keywords: 'African tech partnerships, government digital transformation, multilateral collaboration, tech investment Nigeria',
   },
   investors: {
-    title: 'Investor Relations',
-    description: 'Explore investment opportunities with ITECH Groups Nigeria, a high-growth technology holding company building scalable digital solutions for Africa.',
-    keywords: 'Invest in African tech, ITECH Groups investors, technology investment Nigeria, venture capital Africa',
+    title: 'Investor Relations & Corporate Memorandums | ITECH Groups Nigeria',
+    description: 'Explore investment opportunities with ITECH Groups Nigeria, a scalable technology holding company capturing Africa’s $700B digital economy.',
+    keywords: 'Invest in African tech, ITECH Groups investors, venture capital Africa, African tech equity, tech holding company',
   },
   blog: {
-    title: 'ITECH Insights & Innovations Blog',
-    description: 'Read our AI-generated articles on technology, innovation, and Africa\'s digital transformation. Explore topics from AgriTech to the future of AI in business.',
-    keywords: 'Africa tech blog, AI articles, AgriTech insights, digital transformation Africa',
+    title: 'Research & Sovereign Insights | ITECH Groups Nigeria',
+    description: 'Executive research briefings and empirical intelligence on African AgriTech, Sovereign AI infrastructure, Public Data Governance, and HealthTech.',
+    keywords: 'African technology research, AgriTech whitepaper, AI in Africa, data governance Africa, HealthTech Nigeria, PropTech',
   },
   contact: {
-    title: 'Contact Us',
-    description: 'Get in touch with ITECH Groups Nigeria. Let\'s discuss how we can build the future together. Find our address, email, phone, and divisional contacts.',
-    keywords: 'Contact ITECH, tech company in Lokoja, partnership inquiries, ITECH email',
+    title: 'Executive Contact & Global Desks | ITECH Groups Nigeria',
+    description: 'Get in touch with ITECH Groups Nigeria corporate headquarters in Lokoja, Kogi State. Direct lines for partnerships, investors, and media inquiries.',
+    keywords: 'Contact ITECH Groups, Lokoja technology office, Nigerian tech headquarters, tech partnership inquiry',
   },
   sitemap: {
-    title: 'Sitemap',
-    description: 'Navigate through all the pages available on the ITECH Groups Nigeria website, including our main sections and blog topics.',
-    keywords: 'sitemap, site navigation, ITECH pages, website map, all pages',
+    title: 'Platform Index & Directory | ITECH Groups Nigeria',
+    description: 'Comprehensive navigation directory of all corporate profiles, operating divisions, research briefs, and institutional contact desks.',
+    keywords: 'ITECH sitemap, platform index, site directory, all research briefs',
   },
 };
 
@@ -62,101 +72,221 @@ const setMetaTag = (attr: 'name' | 'property', value: string, content: string) =
   element.setAttribute('content', content);
 };
 
+const removeMetaTag = (attr: 'name' | 'property', value: string) => {
+  const element = document.querySelector(`meta[${attr}="${value}"]`);
+  if (element && element.parentNode) {
+    element.parentNode.removeChild(element);
+  }
+};
+
 const setCanonical = (url: string) => {
-    let element = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
-    if(!element) {
-        element = document.createElement('link');
-        element.setAttribute('rel', 'canonical');
-        document.head.appendChild(element);
-    }
-    element.setAttribute('href', url);
-}
+  let element = document.querySelector('link[rel="canonical"]') as HTMLLinkElement;
+  if (!element) {
+    element = document.createElement('link');
+    element.setAttribute('rel', 'canonical');
+    document.head.appendChild(element);
+  }
+  element.setAttribute('href', url);
+};
 
-const updateStructuredData = (page: string, postSlug?: string) => {
-    const script = document.getElementById('structured-data');
-    if (!script) return;
+const updateStructuredData = (page: string, postSlug?: string, baseUrl: string = getBaseUrl()) => {
+  const script = document.getElementById('structured-data');
+  if (!script) return;
 
-    let data: object = {
+  const defaultImageUrl = `${baseUrl}/social_preview.png`;
+  const logoUrl = `${baseUrl}/logo.jpg`;
+
+  if (page === 'blog' && postSlug) {
+    const post = getBlogPostBySlug(postSlug);
+    if (post) {
+      const articleUrl = `${baseUrl}/#/blog/${post.slug}`;
+      const articleData = {
         "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "ITECH Groups Nigeria",
-        "url": `${BASE_URL}/#/`,
-        "logo": DEFAULT_IMAGE_URL,
-        "contactPoint": {
-          "@type": "ContactPoint",
-          "telephone": CONTACT_INFO.phone,
-          "contactType": "customer service",
-          "email": CONTACT_INFO.email
+        "@type": "BlogPosting",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": articleUrl
         },
-        "sameAs": Object.values(SOCIAL_LINKS)
-    };
+        "headline": post.title,
+        "alternativeHeadline": post.subtitle,
+        "image": [
+          defaultImageUrl,
+          post.coverImage
+        ],
+        "datePublished": "2026-10-24T08:00:00+01:00",
+        "dateModified": "2026-10-25T08:00:00+01:00",
+        "author": {
+          "@type": "Person",
+          "name": post.author.name,
+          "jobTitle": post.author.role,
+          "url": `${baseUrl}/#/about`
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": SITE_NAME,
+          "logo": {
+            "@type": "ImageObject",
+            "url": logoUrl
+          }
+        },
+        "description": post.summary,
+        "articleSection": post.category,
+        "inLanguage": "en-US",
+        "keywords": `${post.category}, Africa Tech, Nigeria Technology, ${post.title}`,
+        "wordCount": post.content.split(/\s+/).length
+      };
 
-    if (page === 'blog' && postSlug) {
-        const post = BLOG_POSTS.find(p => p.slug === postSlug || (p as any).aliases?.includes(postSlug));
-        if (post) {
-            data = {
-                "@context": "https://schema.org",
-                "@type": "Article",
-                "headline": post.title,
-                "author": {
-                    "@type": "Person",
-                    "name": LEADERSHIP.name
-                },
-                "publisher": {
-                    "@type": "Organization",
-                    "name": "ITECH Groups Nigeria",
-                    "logo": {
-                        "@type": "ImageObject",
-                        "url": DEFAULT_IMAGE_URL
-                    }
-                },
-                "description": post.summary,
-                "url": `${BASE_URL}/#/blog/${post.slug}`
-            };
-        }
+      const breadcrumbData = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": `${baseUrl}/#/`
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Research & Insights",
+            "item": `${baseUrl}/#/blog`
+          },
+          {
+            "@type": "ListItem",
+            "position": 3,
+            "name": post.title,
+            "item": articleUrl
+          }
+        ]
+      };
+
+      script.textContent = JSON.stringify([articleData, breadcrumbData], null, 2);
+      return;
     }
+  }
 
-    script.textContent = JSON.stringify(data, null, 2);
+  // Global Corporate Organization & WebSite Structured Data
+  const orgData = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": SITE_NAME,
+    "alternateName": "ITECH Groups",
+    "url": `${baseUrl}/`,
+    "logo": logoUrl,
+    "image": defaultImageUrl,
+    "description": "A premier technology and innovation holding company engineering sovereign AI, precision AgriTech telemetry, and public data infrastructure across Africa.",
+    "founder": {
+      "@type": "Person",
+      "name": LEADERSHIP.name,
+      "jobTitle": LEADERSHIP.title,
+      "description": LEADERSHIP.bio
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Opposite Poly Hospital, G.R.A",
+      "addressLocality": "Lokoja",
+      "addressRegion": "Kogi State",
+      "addressCountry": "NG"
+    },
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": CONTACT_INFO.phone,
+      "contactType": "customer service",
+      "email": CONTACT_INFO.email,
+      "areaServed": ["NG", "Africa", "Global"],
+      "availableLanguage": ["English", "Hausa", "Yoruba", "Igbo"]
+    },
+    "sameAs": Object.values(SOCIAL_LINKS)
+  };
+
+  const websiteData = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": SITE_NAME,
+    "url": `${baseUrl}/`,
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": `${baseUrl}/blog?search={search_term_string}`,
+      "query-input": "required name=search_term_string"
+    }
+  };
+
+  script.textContent = JSON.stringify([orgData, websiteData], null, 2);
 };
 
 export const updateMetadata = (pathname: string) => {
+  const baseUrl = getBaseUrl();
   const pathSegments = pathname.split('/').filter(Boolean);
   const page = pathSegments[0] || 'home';
   const postSlug = page === 'blog' ? pathSegments[1] : undefined;
 
   const pageKey = page in METADATA ? page : 'home';
   const meta = METADATA[pageKey as keyof typeof METADATA];
-  const post = postSlug ? BLOG_POSTS.find(p => p.slug === postSlug || (p as any).aliases?.includes(postSlug)) : null;
-  
-  const pageTitle = post ? post.title : meta.title;
-  const title = page === 'home' ? `${SITE_NAME} | ${pageTitle}` : `${pageTitle} | ${SITE_NAME}`;
-  
-  const description = post ? post.summary : meta.description;
-  const url = `${BASE_URL}/#${pathname}`;
+  const post = postSlug ? getBlogPostBySlug(postSlug) : null;
 
-  // Update Title
+  // Title: Specific, branded, and optimized for search snippets
+  const title = post ? `${post.title} | ${SITE_NAME}` : meta.title;
+
+  // Description: Under 160 characters for snippets
+  const description = post ? post.summary : meta.description;
+
+  // Keywords
+  const keywords = post ? `${post.category}, Nigeria Tech, African AgriTech, AI, Data Analytics, ${meta.keywords}` : meta.keywords;
+
+  // Hash Canonical URL (e.g. https://itech-groups-nigeria-lime.vercel.app/#/blog/the-digital-harvest-agritech-nigeria)
+  const canonicalUrl = `${baseUrl}/#${pathname}`;
+
+  // Preview Image
+  const imageUrl = `${baseUrl}/social_preview.png`;
+
+  // Update Page Title
   document.title = title;
 
-  // Update Meta Tags
+  // Core Meta
   setMetaTag('name', 'description', description);
-  setMetaTag('name', 'keywords', meta.keywords);
+  setMetaTag('name', 'keywords', keywords);
+  setMetaTag('name', 'author', 'Olabode Ilesanmi, ITECH Groups Nigeria');
 
-  // Update Open Graph tags
+  // Search Engine Bot Directives: Guarantee Full Indexing and Large Snippets
+  setMetaTag('name', 'robots', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
+  setMetaTag('name', 'googlebot', 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1');
+  setMetaTag('name', 'bingbot', 'index, follow, max-snippet:-1, max-image-preview:large');
+
+  // Open Graph
   setMetaTag('property', 'og:title', title);
   setMetaTag('property', 'og:description', description);
-  setMetaTag('property', 'og:url', url);
-  setMetaTag('property', 'og:image', DEFAULT_IMAGE_URL);
+  setMetaTag('property', 'og:url', canonicalUrl);
+  setMetaTag('property', 'og:image', imageUrl);
   setMetaTag('property', 'og:site_name', SITE_NAME);
+  setMetaTag('property', 'og:locale', 'en_US');
 
-  // Update Twitter tags
+  if (post) {
+    setMetaTag('property', 'og:type', 'article');
+    setMetaTag('property', 'article:published_time', '2026-10-24T08:00:00+01:00');
+    setMetaTag('property', 'article:modified_time', '2026-10-25T08:00:00+01:00');
+    setMetaTag('property', 'article:author', 'Olabode Ilesanmi');
+    setMetaTag('property', 'article:section', post.category);
+    setMetaTag('property', 'article:tag', `${post.category}, AgriTech, AI, Africa`);
+  } else {
+    setMetaTag('property', 'og:type', 'website');
+    removeMetaTag('property', 'article:published_time');
+    removeMetaTag('property', 'article:modified_time');
+    removeMetaTag('property', 'article:author');
+    removeMetaTag('property', 'article:section');
+    removeMetaTag('property', 'article:tag');
+  }
+
+  // Twitter / X
+  setMetaTag('property', 'twitter:card', 'summary_large_image');
   setMetaTag('property', 'twitter:title', title);
   setMetaTag('property', 'twitter:description', description);
-  setMetaTag('property', 'twitter:url', url);
-  setMetaTag('property', 'twitter:image', DEFAULT_IMAGE_URL);
+  setMetaTag('property', 'twitter:url', canonicalUrl);
+  setMetaTag('property', 'twitter:image', imageUrl);
 
-  // Update Canonical URL
-  setCanonical(url);
+  // Canonical Link Tag
+  setCanonical(canonicalUrl);
 
-  // Update Structured Data
-  updateStructuredData(page, postSlug);
+  // Schema.org Structured Data
+  updateStructuredData(page, postSlug, baseUrl);
 };
